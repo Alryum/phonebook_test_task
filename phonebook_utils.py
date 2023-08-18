@@ -19,9 +19,9 @@ def save_phonebook(entries):
 
 
 def display_entries(entries):
-    page = input('Введите страницу')
     for entry in entries:
         print(entry)
+    input('Нажмите для продолжения...')
 
 
 def add_entry(entries):
