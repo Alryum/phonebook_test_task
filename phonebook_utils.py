@@ -42,9 +42,17 @@ def add_entry(entries):
     save_phonebook(entries)
 
 
-def edit_entry(entries):
-    # Логика редактирования записи
-    pass
+def edit_entry(entries,  first_name, last_name):
+    for entry in entries:
+        if entry["Фамилия"].lower() == last_name.lower() and entry["Имя"].lower() == first_name.lower():
+            entry["Фамилия"] = input("Введите новую фамилию: ")
+            entry["Имя"] = input("Введите новое имя: ")
+            entry["Отчество"] = input("Введите новое отчество: ")
+            entry["Организация"] = input("Введите новое название организации: ")
+            entry["Рабочий телефон"] = input("Введите новый рабочий телефон: ")
+            entry["Личный телефон"] = input("Введите новый личный телефон: ")
+            save_phonebook(entries)
+            print("Запись успешно обновлена.")
 
 
 def search_entries(entries, search_criteria):

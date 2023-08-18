@@ -17,7 +17,9 @@ def main():
         elif choice == '2':
             phonebook_utils.add_entry(phonebook)
         elif choice == '3':
-            phonebook_utils.edit_entry(phonebook)
+            first_name = input("Введите имя для редактирования: ")
+            last_name = input("Введите фамилию для редактирования: ")
+            phonebook_utils.edit_entry(phonebook, first_name, last_name)
         elif choice == '4':
             search_criteria = phonebook_utils.create_search_criteria()
             matching_entries = phonebook_utils.search_entries(phonebook, search_criteria)
