@@ -1,12 +1,14 @@
 import csv
+import locale
 
 phonebook_file = "phonebook.csv"
+locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
 
-def load_phonebook():
+def load_phonebook() -> list:
     with open(phonebook_file, "r", newline="") as file:
         reader = csv.DictReader(file)
-        return list(reader)
+        return sorted(list(reader), key=lambda x: x["Фамилия"])
 
 
 def save_phonebook(entries):
