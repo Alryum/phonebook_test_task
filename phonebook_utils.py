@@ -19,8 +19,10 @@ def save_phonebook(entries):
 
 
 def display_entries(entries):
-    for entry in entries:
-        print(entry)
+    print(f"{'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
+    print('-' * 90)
+    for row in entries:
+        print(f"{row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
     input('Нажмите для продолжения...')
 
 
