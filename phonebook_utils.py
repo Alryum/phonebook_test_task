@@ -18,7 +18,7 @@ def save_phonebook(entries):
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(entries)
-    print('Успешно добавлено')
+    print('Успешно записано')
 
 
 def display_entries(entries):
@@ -29,7 +29,7 @@ def display_entries(entries):
     input('Нажмите для продолжения...')
 
 
-def add_entry(entries):
+def entry_generator():
     entry = {
         'Фамилия': input('Введите фамилию: '),
         'Имя': input('Введите имя: '),
@@ -38,34 +38,59 @@ def add_entry(entries):
         'Рабочий телефон': input('Введите рабочий телефон: '),
         'Личный телефон': input('Введите личный телефон: '),
     }
-    entries.append(entry)
+    return entry
+
+
+def add_entry(entries):
+    entries.append(entry_generator())
     save_phonebook(entries)
 
 
-def edit_entry(entries,  first_name, last_name):
-    for entry in entries:
-        if entry["Фамилия"].lower() == last_name.lower() and entry["Имя"].lower() == first_name.lower():
-            entry["Фамилия"] = input("Введите новую фамилию: ")
-            entry["Имя"] = input("Введите новое имя: ")
-            entry["Отчество"] = input("Введите новое отчество: ")
-            entry["Организация"] = input("Введите новое название организации: ")
-            entry["Рабочий телефон"] = input("Введите новый рабочий телефон: ")
-            entry["Личный телефон"] = input("Введите новый личный телефон: ")
-            save_phonebook(entries)
-            print("Запись успешно обновлена.")
+def edit_entry(entries):
+    entries_for_edit = search_entries(entries)
+
+    print(f"{'id':<4} {'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
+    print('-' * 94)
+    ids = set()
+    for d in entries_for_edit:
+        for i, row in d.items():
+            print(
+                f"{i:<4} {row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
+            ids.add(i)
+        while True:
+            choice = int(input('Выберите id записи, которую необходимо изменить'))
+            if choice in ids:
+                entries[choice] = entry_generator()
+                save_phonebook(entries)
+                break
+            print('Некорректный id')
 
 
-def search_entries(entries, search_criteria):
+def search_entries(entries):
+    search_criteria = create_search_criteria()
     matching_entries = []
+    force_pass = False
 
-    for entry in entries:
+    for i, entry in enumerate(entries):
         match = True
         for key, value in search_criteria.items():
             if entry.get(key, "").lower() != value.lower():
                 match = False
                 break
         if match:
-            matching_entries.append(entry)
+            matching_entries.append({i: entry})
+        if not force_pass and len(matching_entries) > 10:
+            print(f'Результаты поиска дают слишком много значений (>10) и поиск ещё не закончен.')
+            while not force_pass:
+                user_decision = input(
+                    'Игнорировать[Y/y] или перезапустить поиск с новыми параметрами[N/n] ?')
+                if user_decision.lower() == 'y':
+                    force_pass = True
+                    break
+                elif user_decision.lower() == 'n':
+                    return search_entries(entries)
+                else:
+                    print('Ожидается [Y/y] или [N/n]')
 
     return matching_entries
 

@@ -17,13 +17,11 @@ def main():
         elif choice == '2':
             phonebook_utils.add_entry(phonebook)
         elif choice == '3':
-            first_name = input("Введите имя для редактирования: ")
-            last_name = input("Введите фамилию для редактирования: ")
-            phonebook_utils.edit_entry(phonebook, first_name, last_name)
+            phonebook_utils.edit_entry(phonebook)
         elif choice == '4':
-            search_criteria = phonebook_utils.create_search_criteria()
-            matching_entries = phonebook_utils.search_entries(phonebook, search_criteria)
-            phonebook_utils.display_entries(matching_entries)
+            matching_entries = phonebook_utils.search_entries(phonebook)
+            matching_entries_without_id = [sub_dict for main_dict in matching_entries for sub_dict in main_dict.values()]
+            phonebook_utils.display_entries(matching_entries_without_id)
         else:
             print('Некорректный выбор. Пожалуйста, выберите снова.')
 
