@@ -1,23 +1,24 @@
 import csv
 import locale
 
-phonebook_file = "phonebook.csv"
+phonebook_file = 'phonebook.csv'
 locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
 
 def load_phonebook() -> list:
-    with open(phonebook_file, "r", newline="") as file:
+    with open(phonebook_file, 'r', newline="") as file:
         reader = csv.DictReader(file)
-        return sorted(list(reader), key=lambda x: x["Фамилия"])
+        return sorted(list(reader), key=lambda x: x['Фамилия'])
 
 
 def save_phonebook(entries):
-    with open(phonebook_file, "w", newline="") as file:
-        fieldnames = ["Фамилия", "Имя", "Отчество",
-                      "Организация", "Рабочий телефон", "Личный телефон"]
+    with open(phonebook_file, 'w', newline="") as file:
+        fieldnames = ['Фамилия', 'Имя', 'Отчество',
+                      'Организация', 'Рабочий телефон', 'Личный телефон']
         writer = csv.DictWriter(file, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(entries)
+    print('Успешно добавлено')
 
 
 def display_entries(entries):
@@ -30,12 +31,12 @@ def display_entries(entries):
 
 def add_entry(entries):
     entry = {
-        "Фамилия": input("Введите фамилию: "),
-        "Имя": input("Введите имя: "),
-        "Отчество": input("Введите отчество: "),
-        "Организация": input("Введите название организации: "),
-        "Рабочий телефон": input("Введите рабочий телефон: "),
-        "Личный телефон": input("Введите личный телефон: "),
+        'Фамилия': input('Введите фамилию: '),
+        'Имя': input('Введите имя: '),
+        'Отчество': input('Введите отчество: '),
+        'Организация': input('Введите название организации: '),
+        'Рабочий телефон': input('Введите рабочий телефон: '),
+        'Личный телефон': input('Введите личный телефон: '),
     }
     entries.append(entry)
     save_phonebook(entries)
@@ -46,6 +47,42 @@ def edit_entry(entries):
     pass
 
 
-def search_entries(entries):
-    # Логика поиска записей
-    pass
+def search_entries(entries, search_criteria):
+    matching_entries = []
+
+    for entry in entries:
+        match = True
+        for key, value in search_criteria.items():
+            if entry.get(key, "").lower() != value.lower():
+                match = False
+                break
+        if match:
+            matching_entries.append(entry)
+
+    return matching_entries
+
+
+def create_search_criteria():
+    search_criteria = {}
+    print('Значения опциональны. Оставить поле пустым при необходимости.')
+    last_name = input('Фамилия: ')
+    first_name = input('Имя: ')
+    patronymic = input('Отчество: ')
+    organization = input('Организация: ')
+    work_phone = input('Рабочий телефон: ')
+    personal_phone = input('Личный телефон: ')
+
+    if last_name:
+        search_criteria['Фамилия'] = last_name
+    if first_name:
+        search_criteria['Имя'] = first_name
+    if patronymic:
+        search_criteria['Отчество'] = patronymic
+    if organization:
+        search_criteria['Организация'] = organization
+    if work_phone:
+        search_criteria['Рабочий телефон'] = work_phone
+    if personal_phone:
+        search_criteria['Личный телефон'] = personal_phone
+
+    return search_criteria
