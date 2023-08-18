@@ -83,7 +83,7 @@ def search_entries(entries):
             print(f'Результаты поиска дают слишком много значений (>10) и поиск ещё не закончен.')
             while not force_pass:
                 user_decision = input(
-                    'Игнорировать[Y/y] или перезапустить поиск с новыми параметрами[N/n] ?')
+                    'Игнорировать[Y/y] или перезапустить поиск с новыми параметрами[N/n]: ')
                 if user_decision.lower() == 'y':
                     force_pass = True
                     break
