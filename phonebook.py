@@ -7,15 +7,37 @@ class Phonebook:
     FIELDS = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
 
     def __init__(self, phonebook_file: str) -> None:
+        """
+        Initialize a Phonebook instance.
+
+        Args:
+        phonebook_file (str): The path to the CSV file containing phonebook data.
+        """
+
         self.phonebook_file = phonebook_file  # 'phonebook.csv'
 
     def load_phonebook(self) -> List[Dict[str, str]]:
+        """
+        Load phonebook entries from a CSV file.
+
+        Returns:
+        List[Dict[str, str]] A list of dictionaries representing phonebook entries.
+        """
+
         with open(self.phonebook_file, 'r', newline="") as file:
             locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
             reader = csv.DictReader(file)
             return sorted(list(reader), key=lambda x: x['Фамилия'])
 
     def display_entries(self, entries: List[Dict[str, str]], page_size=10) -> None:
+        """
+        Display phonebook entries with pagination.
+
+        Args:
+        entries(List[Dict[str, str]]): List of phonebook entries to display.
+        page_size(int): Number of entries to display per page.
+        """
+
         total_entries = len(entries)
         num_pages = (total_entries + page_size - 1) // page_size
 
@@ -44,11 +66,25 @@ class Phonebook:
                 page = 1
 
     def add_entry(self, entries: List[Dict[str, str]]) -> None:
+        """
+        Add a new entry to the phonebook.
+
+        Args:
+        entries(List[Dict[str, str]]): List of phonebook entries to append the new entry to.
+        """
+
         new_entry = self.__create_criteria(strong=True)
         entries.append(new_entry)
         self.__save_phonebook(entries)
 
     def edit_entry(self, entries: List[Dict[str, str]]) -> None:
+        """
+        Edit an existing phonebook entry.
+
+        Args:
+        entries(List[Dict[str, str]]): List of phonebook entries to edit.
+        """
+
         entries_for_edit = self.search_entries(entries)
 
         print(f"{'id':<4} {'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
@@ -69,6 +105,16 @@ class Phonebook:
                 print('Некорректный id')
 
     def search_entries(self, entries: List[Dict[str, str]]) -> List[Dict[str, str]]:
+        """
+        Search for phonebook entries based on given criteria.
+
+        Args:
+        entries(List[Dict[str, str]]): List of phonebook entries to search within.
+
+        Returns:
+        List of dictionaries representing matching phonebook entries.
+        """
+
         search_criteria = self.__create_criteria()
         matching_entries = []
         force_pass = False
@@ -99,6 +145,13 @@ class Phonebook:
     # PRIVATE METHODS
 
     def __save_phonebook(self, entries: List[Dict[str, str]]) -> None:
+        """
+        Save phonebook entries to the CSV file.
+
+        Args:
+        entries(List[Dict[str, str]]): List of phonebook entries to save.
+        """
+
         with open(self.phonebook_file, 'w', newline="") as file:
             writer = csv.DictWriter(file, fieldnames=Phonebook.FIELDS)
             writer.writeheader()
@@ -106,6 +159,16 @@ class Phonebook:
         print('Успешно записано')
 
     def __get_new_entry(self, entry: Dict[str, str]) -> Dict[str, str]:
+        """
+        Create a new phonebook entry based on user input.
+
+        Args:
+        entry(Dict[str, str]): Dictionary representing an existing phonebook entry.
+
+        Returns:
+        Dict[str, str]: Dictionary representing the new phonebook entry.
+        """
+
         user_edit_fields = self.__create_criteria()
 
         for key, val in user_edit_fields.items():
@@ -114,6 +177,16 @@ class Phonebook:
         return entry
 
     def __create_criteria(self, strong=False) -> Dict[str, str]:
+        """
+        Create search or editing criteria based on user input.
+
+        Args:
+        strong(bool): Boolean flag indicating whether to enforce non-empty values.
+
+        Returns:
+        Dict[str, str]: Dictionary representing the search or editing criteria.
+        """
+
         summary_fields = {}
         if not strong:
             print('Значения опциональны. Оставить поле пустым при необходимости.')
