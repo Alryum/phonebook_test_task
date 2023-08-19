@@ -114,25 +114,12 @@ class Phonebook:
 
     def __create_search_criteria(self):
         search_criteria = {}
+        fields = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
         print('Значения опциональны. Оставить поле пустым при необходимости.')
-        last_name = input('Фамилия: ')
-        first_name = input('Имя: ')
-        patronymic = input('Отчество: ')
-        organization = input('Организация: ')
-        work_phone = input('Рабочий телефон: ')
-        personal_phone = input('Личный телефон: ')
 
-        if last_name:
-            search_criteria['Фамилия'] = last_name
-        if first_name:
-            search_criteria['Имя'] = first_name
-        if patronymic:
-            search_criteria['Отчество'] = patronymic
-        if organization:
-            search_criteria['Организация'] = organization
-        if work_phone:
-            search_criteria['Рабочий телефон'] = work_phone
-        if personal_phone:
-            search_criteria['Личный телефон'] = personal_phone
+        for field in fields:
+            value = input(f'{field}: ')
+            if value:
+                search_criteria[field] = value
 
         return search_criteria
