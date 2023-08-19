@@ -105,17 +105,6 @@ class Phonebook:
             writer.writerows(entries)
         print('Успешно записано')
 
-    def __entry_generator(self):
-        entry = {
-            'Фамилия': input('Введите фамилию: '),
-            'Имя': input('Введите имя: '),
-            'Отчество': input('Введите отчество: '),
-            'Организация': input('Введите название организации: '),
-            'Рабочий телефон': input('Введите рабочий телефон: '),
-            'Личный телефон': input('Введите личный телефон: '),
-        }
-        return entry
-
     def __get_new_entry(self, entry: dict):
         user_edit_fields = self.__create_criteria()
 
