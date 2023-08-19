@@ -1,4 +1,4 @@
-from phonebook_utils import Phonebook
+from phonebook import Phonebook
 
 
 def main():
