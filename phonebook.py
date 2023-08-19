@@ -4,6 +4,10 @@ from typing import Dict, List
 
 
 class Phonebook:
+    """
+    A class representing a phonebook with various functionalities.
+    """
+
     FIELDS = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
 
     def __init__(self, phonebook_file: str) -> None:
@@ -14,7 +18,7 @@ class Phonebook:
         phonebook_file (str): The path to the CSV file containing phonebook data.
         """
 
-        self.phonebook_file = phonebook_file  # 'phonebook.csv'
+        self.phonebook_file = phonebook_file
 
     def load_phonebook(self) -> List[Dict[str, str]]:
         """
