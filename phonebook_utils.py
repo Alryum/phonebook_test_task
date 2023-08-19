@@ -60,7 +60,8 @@ def entry_generator():
 
 
 def add_entry(entries):
-    entries.append(entry_generator())
+    new_entry = entry_generator()
+    entries.append(new_entry)
     save_phonebook(entries)
 
 
@@ -76,7 +77,7 @@ def edit_entry(entries):
                 f"{i:<4} {row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
             ids.add(i)
         while True:
-            choice = int(input('Выберите id записи, которую необходимо изменить'))
+            choice = int(input('Выберите id записи, которую необходимо изменить: '))
             if choice in ids:
                 entries[choice] = entry_generator()
                 save_phonebook(entries)
