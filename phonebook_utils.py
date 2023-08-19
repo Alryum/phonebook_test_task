@@ -21,12 +21,30 @@ def save_phonebook(entries):
     print('Успешно записано')
 
 
-def display_entries(entries):
-    print(f"{'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
-    print('-' * 90)
-    for row in entries:
-        print(f"{row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
-    input('Нажмите для продолжения...')
+def display_entries(entries, page_size=10):
+    total_entries = len(entries)
+    num_pages = (total_entries + page_size - 1) // page_size
+
+    page = 1
+    while True:
+        start_idx = (page - 1) * page_size
+        end_idx = min(start_idx + page_size, total_entries)
+
+        print(f"{'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
+        print('-' * 90)
+
+        for row in entries[start_idx:end_idx]:
+            print(f"{row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
+
+        print(f"Страница {page}/{num_pages}")
+        user_input = input("Для продолжения нажмите Enter, либо введите 'q' для выхода: ")
+
+        if user_input.lower() == 'q':
+            break
+
+        page += 1
+        if page > num_pages:
+            page = 1
 
 
 def entry_generator():
