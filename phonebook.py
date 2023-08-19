@@ -3,6 +3,7 @@ import locale
 
 
 class Phonebook:
+    FIELDS = ('Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон')
 
     def __init__(self, phonebook_file) -> None:
         locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
@@ -114,10 +115,9 @@ class Phonebook:
 
     def __create_search_criteria(self):
         search_criteria = {}
-        fields = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
         print('Значения опциональны. Оставить поле пустым при необходимости.')
 
-        for field in fields:
+        for field in Phonebook.FIELDS:
             value = input(f'{field}: ')
             if value:
                 search_criteria[field] = value
