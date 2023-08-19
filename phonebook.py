@@ -30,13 +30,16 @@ class Phonebook:
                 print(f"{row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
 
             print(f"Страница {page}/{num_pages}")
-            user_input = input("Для продолжения нажмите Enter, либо введите 'q' для выхода: ")
+            user_input = input(
+                "Далее[Enter], Предыдущая страница: ввести 'prev', либо 'q' для выхода: ")
 
             if user_input.lower() == 'q':
                 break
-
-            page += 1
-            if page > num_pages:
+            elif user_input.lower() == 'prev':
+                page -= 1
+            else:
+                page += 1
+            if page > num_pages or page <= 0:
                 page = 1
 
     def add_entry(self, entries):
