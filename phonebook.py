@@ -6,11 +6,12 @@ class Phonebook:
     FIELDS = ('Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон')
 
     def __init__(self, phonebook_file) -> None:
-        locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
+        
         self.phonebook_file = phonebook_file  # 'phonebook.csv'
 
     def load_phonebook(self) -> list:
         with open(self.phonebook_file, 'r', newline="") as file:
+            locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
             reader = csv.DictReader(file)
             return sorted(list(reader), key=lambda x: x['Фамилия'])
 
