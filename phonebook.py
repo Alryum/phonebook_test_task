@@ -44,7 +44,7 @@ class Phonebook:
                 page = 1
 
     def add_entry(self, entries):
-        new_entry = self.__entry_generator()
+        new_entry = self.__create_criteria(strong=True)
         entries.append(new_entry)
         self.__save_phonebook(entries)
 
@@ -62,20 +62,21 @@ class Phonebook:
             while True:
                 choice = int(input('Выберите id записи, которую необходимо изменить: '))
                 if choice in ids:
-                    entries[choice] = self.__entry_generator()
+                    new_entry = self.__get_new_entry(entries[choice].copy())
+                    entries[choice] = new_entry
                     self.__save_phonebook(entries)
                     break
                 print('Некорректный id')
 
     def search_entries(self, entries):
-        search_criteria = self.__create_search_criteria()
+        search_criteria = self.__create_criteria()
         matching_entries = []
         force_pass = False
 
         for i, entry in enumerate(entries):
             match = True
             for key, value in search_criteria.items():
-                if entry.get(key, "").lower() != value.lower():
+                if entry.get(key, '').lower() != value.lower():
                     match = False
                     break
             if match:
@@ -115,13 +116,28 @@ class Phonebook:
         }
         return entry
 
-    def __create_search_criteria(self):
-        search_criteria = {}
-        print('Значения опциональны. Оставить поле пустым при необходимости.')
+    def __get_new_entry(self, entry: dict):
+        user_edit_fields = self.__create_criteria()
+
+        for key, val in user_edit_fields.items():
+            entry[key] = val
+
+        return entry
+
+    def __create_criteria(self, strong=False):
+        summary_fields = {}
+        if not strong:
+            print('Значения опциональны. Оставить поле пустым при необходимости.')
 
         for field in Phonebook.FIELDS:
-            value = input(f'{field}: ')
-            if value:
-                search_criteria[field] = value
+            while True:
+                value = input(f'{field}: ')
+                if value:
+                    summary_fields[field] = value
+                    break
+                elif strong and not value:
+                    print('Поле нельзя оставить пустым')
+                else:
+                    break
 
-        return search_criteria
+        return summary_fields
