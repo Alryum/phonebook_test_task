@@ -197,7 +197,7 @@ class Phonebook:
 
         for field in Phonebook.FIELDS:
             while True:
-                value = input(f'{field}: ')
+                value = input(f'{field}: ').strip()
                 if value:
                     summary_fields[field] = value
                     break
