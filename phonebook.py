@@ -13,15 +13,6 @@ class Phonebook:
             reader = csv.DictReader(file)
             return sorted(list(reader), key=lambda x: x['Фамилия'])
 
-    def __save_phonebook(self, entries):
-        with open(self.phonebook_file, 'w', newline="") as file:
-            fieldnames = ['Фамилия', 'Имя', 'Отчество',
-                          'Организация', 'Рабочий телефон', 'Личный телефон']
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
-            writer.writeheader()
-            writer.writerows(entries)
-        print('Успешно записано')
-
     def display_entries(self, entries, page_size=10):
         total_entries = len(entries)
         num_pages = (total_entries + page_size - 1) // page_size
@@ -46,17 +37,6 @@ class Phonebook:
             page += 1
             if page > num_pages:
                 page = 1
-
-    def __entry_generator(self):
-        entry = {
-            'Фамилия': input('Введите фамилию: '),
-            'Имя': input('Введите имя: '),
-            'Отчество': input('Введите отчество: '),
-            'Организация': input('Введите название организации: '),
-            'Рабочий телефон': input('Введите рабочий телефон: '),
-            'Личный телефон': input('Введите личный телефон: '),
-        }
-        return entry
 
     def add_entry(self, entries):
         new_entry = self.__entry_generator()
@@ -109,6 +89,28 @@ class Phonebook:
                         print('Ожидается [Y/y] или [N/n]')
 
         return matching_entries
+
+    # PRIVATE METHODS
+
+    def __save_phonebook(self, entries):
+        with open(self.phonebook_file, 'w', newline="") as file:
+            fieldnames = ['Фамилия', 'Имя', 'Отчество',
+                          'Организация', 'Рабочий телефон', 'Личный телефон']
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(entries)
+        print('Успешно записано')
+
+    def __entry_generator(self):
+        entry = {
+            'Фамилия': input('Введите фамилию: '),
+            'Имя': input('Введите имя: '),
+            'Отчество': input('Введите отчество: '),
+            'Организация': input('Введите название организации: '),
+            'Рабочий телефон': input('Введите рабочий телефон: '),
+            'Личный телефон': input('Введите личный телефон: '),
+        }
+        return entry
 
     def __create_search_criteria(self):
         search_criteria = {}
