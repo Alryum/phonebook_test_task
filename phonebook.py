@@ -3,10 +3,10 @@ import locale
 
 
 class Phonebook:
-    FIELDS = ('Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон')
+    FIELDS = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
 
     def __init__(self, phonebook_file) -> None:
-        
+
         self.phonebook_file = phonebook_file  # 'phonebook.csv'
 
     def load_phonebook(self) -> list:
@@ -99,9 +99,7 @@ class Phonebook:
 
     def __save_phonebook(self, entries):
         with open(self.phonebook_file, 'w', newline="") as file:
-            fieldnames = ['Фамилия', 'Имя', 'Отчество',
-                          'Организация', 'Рабочий телефон', 'Личный телефон']
-            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer = csv.DictWriter(file, fieldnames=Phonebook.FIELDS)
             writer.writeheader()
             writer.writerows(entries)
         print('Успешно записано')
