@@ -99,14 +99,14 @@ class Phonebook:
                 print(
                     f"{i:<4} {row['Фамилия']:<15} {row['Имя']:<15} {row['Отчество']:<15} {row['Организация']:<15} {row['Рабочий телефон']:<15} {row['Личный телефон']:<15}")
                 ids.add(i)
-            while True:
-                choice = int(input('Выберите id записи, которую необходимо изменить: '))
-                if choice in ids:
-                    new_entry = self.__get_new_entry(entries[choice].copy())
-                    entries[choice] = new_entry
-                    self.__save_phonebook(entries)
-                    break
-                print('Некорректный id')
+        while True:
+            choice = int(input('Выберите id записи, которую необходимо изменить: '))
+            if choice in ids:
+                new_entry = self.__get_new_entry(entries[choice].copy())
+                entries[choice] = new_entry
+                self.__save_phonebook(entries)
+                break
+            print('Некорректный id')
 
     def search_entries(self, entries: List[Dict[str, str]]) -> List[Dict[str, str]]:
         """
