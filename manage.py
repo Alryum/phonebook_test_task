@@ -1,7 +1,7 @@
 from phonebook import Phonebook
 
 
-def main():
+def main() -> None:
     phonebook = Phonebook('phonebook.csv')
     phonebook_list = phonebook.load_phonebook()
     while True:
@@ -10,14 +10,14 @@ def main():
         process_choice(choice, phonebook, phonebook_list)
 
 
-def print_menu():
+def print_menu() -> None:
     print('1. Вывести записи')
     print('2. Добавить запись')
     print('3. Редактировать запись')
     print('4. Поиск записей')
 
 
-def process_choice(choice: str, phonebook: Phonebook, phonebook_list: list):
+def process_choice(choice: str, phonebook: Phonebook, phonebook_list: list) -> None:
     if choice == '1':
         phonebook.display_entries(phonebook_list)
     elif choice == '2':
