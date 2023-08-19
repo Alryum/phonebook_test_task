@@ -1,3 +1,4 @@
+from typing import Dict, List
 from phonebook import Phonebook
 
 
@@ -17,7 +18,7 @@ def print_menu() -> None:
     print('4. Поиск записей')
 
 
-def process_choice(choice: str, phonebook: Phonebook, phonebook_list: list) -> None:
+def process_choice(choice: str, phonebook: Phonebook, phonebook_list: List[Dict[str, str]]) -> None:
     if choice == '1':
         phonebook.display_entries(phonebook_list)
     elif choice == '2':

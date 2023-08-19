@@ -1,20 +1,21 @@
 import csv
 import locale
+from typing import Dict, List
 
 
 class Phonebook:
     FIELDS = ['Фамилия', 'Имя', 'Отчество', 'Организация', 'Рабочий телефон', 'Личный телефон']
 
-    def __init__(self, phonebook_file) -> None:
+    def __init__(self, phonebook_file: str) -> None:
         self.phonebook_file = phonebook_file  # 'phonebook.csv'
 
-    def load_phonebook(self) -> list:
+    def load_phonebook(self) -> List[Dict[str, str]]:
         with open(self.phonebook_file, 'r', newline="") as file:
             locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
             reader = csv.DictReader(file)
             return sorted(list(reader), key=lambda x: x['Фамилия'])
 
-    def display_entries(self, entries, page_size=10) -> None:
+    def display_entries(self, entries: List[Dict[str, str]], page_size=10) -> None:
         total_entries = len(entries)
         num_pages = (total_entries + page_size - 1) // page_size
 
@@ -42,12 +43,12 @@ class Phonebook:
             if page > num_pages or page <= 0:
                 page = 1
 
-    def add_entry(self, entries: list) -> None:
+    def add_entry(self, entries: List[Dict[str, str]]) -> None:
         new_entry = self.__create_criteria(strong=True)
         entries.append(new_entry)
         self.__save_phonebook(entries)
 
-    def edit_entry(self, entries: list) -> None:
+    def edit_entry(self, entries: List[Dict[str, str]]) -> None:
         entries_for_edit = self.search_entries(entries)
 
         print(f"{'id':<4} {'Фамилия':<15} {'Имя':<15} {'Отчество':<15} {'Организация':<15} {'Рабочий телефон':<15} {'Личный телефон':<15}")
@@ -67,7 +68,7 @@ class Phonebook:
                     break
                 print('Некорректный id')
 
-    def search_entries(self, entries: list) -> dict:
+    def search_entries(self, entries: List[Dict[str, str]]) -> List[Dict[str, str]]:
         search_criteria = self.__create_criteria()
         matching_entries = []
         force_pass = False
@@ -97,14 +98,14 @@ class Phonebook:
 
     # PRIVATE METHODS
 
-    def __save_phonebook(self, entries: list) -> None:
+    def __save_phonebook(self, entries: List[Dict[str, str]]) -> None:
         with open(self.phonebook_file, 'w', newline="") as file:
             writer = csv.DictWriter(file, fieldnames=Phonebook.FIELDS)
             writer.writeheader()
             writer.writerows(entries)
         print('Успешно записано')
 
-    def __get_new_entry(self, entry: dict) -> dict:
+    def __get_new_entry(self, entry: Dict[str, str]) -> Dict[str, str]:
         user_edit_fields = self.__create_criteria()
 
         for key, val in user_edit_fields.items():
@@ -112,7 +113,7 @@ class Phonebook:
 
         return entry
 
-    def __create_criteria(self, strong=False) -> dict:
+    def __create_criteria(self, strong=False) -> Dict[str, str]:
         summary_fields = {}
         if not strong:
             print('Значения опциональны. Оставить поле пустым при необходимости.')
