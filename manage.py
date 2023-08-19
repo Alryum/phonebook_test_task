@@ -17,7 +17,7 @@ def print_menu():
     print('4. Поиск записей')
 
 
-def process_choice(choice: str, phonebook: Phonebook, phonebook_list):
+def process_choice(choice: str, phonebook: Phonebook, phonebook_list: list):
     if choice == '1':
         phonebook.display_entries(phonebook_list)
     elif choice == '2':
